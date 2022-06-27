@@ -2,7 +2,7 @@ Car(Drive) {
     * (Drive) 
     | Cell(H,@) ? Wait :(Stop) 
     | Cell(H,D) ? Protect(F) :(Slow)
-    | Cell(H,A) ? 2%Move(R) / 2%Move(L) / Move(B) : (Drive)
+    | Cell(H,A) / Cell(H,C) ? 2%Move(R) / 2%Move(L) / Move(B) : (Drive)
     | Cell(F,O) & (!Cell(R,O)) ? Move(R) :(Drive)                                          
     | Cell(F,O) & (!Cell(L,O)) ? Move(L) :(Drive)
     | (!Cell(F,O)) & (!Cell(L,O)) ? 1%Move(L) / Move(F) :(Drive) 

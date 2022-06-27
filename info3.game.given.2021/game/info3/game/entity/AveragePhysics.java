@@ -14,7 +14,7 @@ public class AveragePhysics implements Physics {
 	double lastVel = 0;
 	double avgVelBuff = 0, avgVel = 0;
 	int timerVel = 0, timerMaxVel = 10;
-	PositionF lastPosChange;
+	PositionF lastPosChange = new PositionF(0, 0);
 
 	/**
 	 * average force is 15

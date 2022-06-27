@@ -116,7 +116,11 @@ public class StockTable extends KitchenTile {
 
 	@Override
 	public boolean gotStuff() {
-		return stock > 0;
+		if (stock > 0) {
+			empty = false;
+			return true;
+		}
+		return false;
 	}
 
 }

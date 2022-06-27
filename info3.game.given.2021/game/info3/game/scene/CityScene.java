@@ -25,7 +25,8 @@ public class CityScene extends Scene {
 	private final PositionF center = new PositionF((float) pixelWidth / 2F - 4.5F, (float) pixelHeight / 2F - 4.5F);
 	private PositionF vanPosition = PositionF.ZERO;
 	private CityDeliveryTile deliveryTile;
-	public final WorldGenerator worldGenerator = new WorldGenerator(0);
+	Random rand = new Random();
+	public final WorldGenerator worldGenerator = new WorldGenerator(rand.nextLong());
 	private CarEntity cookCar;
 
 	// Finding nearest market is costly in performance, so we do not want to call it
@@ -111,6 +112,8 @@ public class CityScene extends Scene {
 				removeEntity(tile.eSpeedbump);
 			if (tile.eMarketStall != null)
 				removeEntity(tile.eMarketStall);
+			if (tile.hasCones)
+				tile.destroyCones();
 			cachedCityTiles.remove(gridPosToRemove);
 		}
 	}
@@ -256,11 +259,11 @@ public class CityScene extends Scene {
 
 		else if (yTile > yCar + centerH) {
 			if (xTile > xCar + centerW) {
-				g.drawSprite(arrow[3], pixelWidth - 7, pixelHeight - 14);
+				g.drawSprite(arrow[3], pixelWidth - 7, pixelHeight - 16);
 			} else if (xTile < xCar - centerW) {
-				g.drawSprite(arrow[5], 0, pixelHeight - 14);
+				g.drawSprite(arrow[5], 0, pixelHeight - 16);
 			} else {
-				g.drawSprite(arrow[4], absX, pixelHeight - 14);
+				g.drawSprite(arrow[4], absX, pixelHeight - 16);
 			}
 		}
 

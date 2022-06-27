@@ -22,8 +22,8 @@ import info3.game.entity.StockTable;
 import info3.game.entity.Tile;
 import info3.game.entity.TrashTile;
 import info3.game.graphics.Graphics;
-import info3.game.graphics.Sprite;
 import info3.game.graphics.Graphics.Align;
+import info3.game.graphics.Sprite;
 import info3.game.position.AutDirection;
 import info3.game.position.PositionF;
 import info3.game.position.PositionI;
@@ -52,6 +52,8 @@ public class KitchenScene extends Scene {
 	public boolean smokeFryingOil = false;
 	public int smokeCounter = 200;
 
+	public boolean deliveryInThisTick;
+
 	private static final ArrayList<PositionF> DEFAULT_LOCATIONS = new ArrayList<>(List.of(new PositionF(0, 1),
 			new PositionF(0, 2), new PositionF(0, 3), new PositionF(0, 4), new PositionF(0, 5), new PositionF(3, 1),
 			new PositionF(3, 2), new PositionF(3, 3), new PositionF(3, 4), new PositionF(3, 5)));
@@ -61,6 +63,8 @@ public class KitchenScene extends Scene {
 		cook = new CookEntity(this,
 				new PositionF(KITCHEN_ORIGIN.getX() + getTileWidth(), KITCHEN_ORIGIN.getY() + getTileWidth()));
 		addEntity(cook);
+
+		deliveryInThisTick = false;
 
 		currentOrder0 = Item.getRandomItem();
 		currentOrder1 = Item.getRandomItem();
@@ -305,6 +309,9 @@ public class KitchenScene extends Scene {
 				}
 			}
 		}
+
+		if (deliveryInThisTick)
+			deliveryInThisTick = false;
 
 	}
 

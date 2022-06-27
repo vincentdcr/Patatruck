@@ -25,6 +25,8 @@ public class CityTile extends Tile {
 	private Sprite stallSprite, stallSprite2, stallSprite3, stallSprite4;
 	public SpeedBumpEntity eSpeedbump = null;
 	public MarketEntity eMarketStall = null;
+	public ConeEntity cone0, cone1, cone2 = null;
+	public boolean hasCones;
 
 	public CityTile(Scene parent, int gridX, int gridY) {
 		super(parent, gridX, gridY);
@@ -37,14 +39,25 @@ public class CityTile extends Tile {
 		if (genTile.hasMarketPaving
 				&& !((CityScene) parentScene).cacheMarketVisited.contains(new PositionI(gridX, gridY)))
 			eMarketStall = new MarketEntity(parent, position, this);
-
+		Random rng = new Random();
 		if (genTile.hasMarketPaving) {
-			Random rng = new Random();
 			stallSprite = Sprite.STALLS[rng.nextInt(Sprite.STALLS.length)];
 			stallSprite2 = Sprite.STALLS[rng.nextInt(Sprite.STALLS.length)];
 			stallSprite3 = Sprite.STALLS[rng.nextInt(Sprite.STALLS.length)];
 			stallSprite4 = Sprite.STALLS[rng.nextInt(Sprite.STALLS.length)];
 		}
+		if (rng.nextInt(100) > 98 && !this.genTile.collisionBox.left) {
+			hasCones = true;
+			cone0 = new ConeEntity(parentScene, position.add(new PositionF(-0.5f, 12.5f)));
+			cone1 = new ConeEntity(parentScene, position.add(new PositionF(2.5f, 12.5f)));
+			cone2 = new ConeEntity(parentScene, position.add(new PositionF(5.5f, 12.5f)));
+		} else if (rng.nextInt(100) > 98 && !this.genTile.collisionBox.top) {
+			hasCones = true;
+			cone0 = new ConeEntity(parentScene, position.add(new PositionF(12.5f, -0.5f)));
+			cone1 = new ConeEntity(parentScene, position.add(new PositionF(12.5f, 2.5f)));
+			cone2 = new ConeEntity(parentScene, position.add(new PositionF(12.5f, 5.5f)));
+		}
+
 	}
 
 	public GenTile getGenTile() {
@@ -109,5 +122,14 @@ public class CityTile extends Tile {
 	@Override
 	public boolean egg(AutDirection direction) {
 		return false;
+	}
+
+	public void destroyCones() {
+		if (cone0 != null)
+			parentScene.removeEntity(cone0);
+		if (cone1 != null)
+			parentScene.removeEntity(cone1);
+		if (cone2 != null)
+			parentScene.removeEntity(cone2);
 	}
 }

@@ -68,12 +68,6 @@ public class CityDeliveryTile extends CityTile {
 	}
 
 	@Override
-	public boolean move(AutDirection direction) {
-		// Can't move
-		return false;
-	}
-
-	@Override
 	public boolean egg(AutDirection direction) {
 		if (parentScene.entityList.size() <= Scene.MAXIMUM_ENTITIES) {
 			Entity newEntity;

@@ -17,6 +17,8 @@ public class ConeEntity extends Entity {
 
 	public ConeEntity(Scene parent, PositionF pos) {
 		super(parent, pos);
+		parentScene.entityList.add(this);
+		category = AutCategory.C;
 	}
 
 	@Override
@@ -31,19 +33,23 @@ public class ConeEntity extends Entity {
 
 	@Override
 	public void tick(long elapsed) {
-		super.tick(elapsed);
-		this.position = this.position.add(physics.shift());
-		if (onWizz) {
-			timerWizz--;
-		}
-		if (timerWizz == 0) {
-			this.explode();
+		if (((CityScene) parentScene).isTooFarFromVan(this)) {
+			this.parentScene.removeEntity(this);
+		} else {
+			super.tick(elapsed);
+			this.position = this.position.add(physics.shift());
+			if (onWizz) {
+				timerWizz--;
+			}
+			if (timerWizz == 0) {
+				this.explode();
+			}
 		}
 	}
 
 	@Override
 	public boolean pop(AutDirection direction) {
-
+		parentScene.game.playSound("pick");
 		switch (direction) {
 		case N:
 		case W:
@@ -77,7 +83,6 @@ public class ConeEntity extends Entity {
 
 	@Override
 	public boolean hit(AutDirection direction) {
-		System.out.println("bounce");
 		this.position = this.position.add(physics.bounce());
 		return true;
 	}
@@ -174,12 +179,4 @@ public class ConeEntity extends Entity {
 
 	}
 
-	@Override
-	public AutCategory catAtThisPos(PositionF pos) {
-		float posX = position.getX();
-		float posY = position.getY();
-		if (posX + 1 <= pos.getX() && pos.getX() <= posX + 2 && posY + 1 <= pos.getY() && pos.getY() <= posY + 2)
-			return category;
-		return null;
-	}
 }

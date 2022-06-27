@@ -86,14 +86,13 @@ public class KitchenDeliveryTile extends KitchenTile {
 	@Override
 	public boolean hit(AutDirection direction) {
 		CityScene cityScene = ((CityScene) ((GameScreen) this.parentScene.game.getScreen()).getCityScene());
-
+		boolean hasBeenDelivered = false;
 		if (recetteReady(((KitchenScene) parentScene).currentOrder0) && cityScene.getCook().canDeliver()) {
 			((KitchenScene) parentScene).currentOrder0 = Item.getRandomItem();
 			assembly.getItems().clear();
 			parentScene.game.addTime(50);
 			// Indicates that the delivery has been done
-			((CityScene) ((GameScreen) this.parentScene.game.getScreen()).getCityScene()).getDeliveryTile().delivered();
-			return true;
+			hasBeenDelivered = true;
 		}
 
 		if (recetteReady(((KitchenScene) parentScene).currentOrder1) && cityScene.getCook().canDeliver()) {
@@ -101,10 +100,15 @@ public class KitchenDeliveryTile extends KitchenTile {
 			assembly.getItems().clear();
 			parentScene.game.addTime(50);
 			// Indicates that the delivery has been done
+			hasBeenDelivered = true;
+		}
+		if (hasBeenDelivered && !((KitchenScene) parentScene).deliveryInThisTick) {
+			((KitchenScene) parentScene).deliveryInThisTick = true;
 			((CityScene) ((GameScreen) this.parentScene.game.getScreen()).getCityScene()).getDeliveryTile().delivered();
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	@Override

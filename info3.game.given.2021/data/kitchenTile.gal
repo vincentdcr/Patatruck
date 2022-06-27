@@ -35,7 +35,7 @@ StockTable(Still){
 | !GotStuff() ? :(Empty)
 
 * (Empty):
-| GotStuff() ? :(Full)
+| GotStuff() ? :(Still)
 | Cell(F,@) & Key(SPACE) ? Wizz(F) : (Empty)
 | True() ? :(Empty)
 }
