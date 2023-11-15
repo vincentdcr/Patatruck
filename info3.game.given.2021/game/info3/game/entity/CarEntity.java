@@ -274,8 +274,6 @@ public class CarEntity extends Entity {
 					break;
 				}
 				case H: {
-					if (entity instanceof ConeEntity && !isPlayer)
-						System.out.println("test");
 					if (entity.catAtThisPos(position.add(new PositionF(0, 0))) == category
 							|| entity.catAtThisPos(position.add(new PositionF(3, 0))) == category
 							|| entity.catAtThisPos(position.add(new PositionF(0, 3))) == category
